@@ -14,8 +14,25 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS,
   },
 });
-
+const basicAuth = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+  
+    if (!authHeader || !authHeader.startsWith("Basic ")) {
+      return res.status(401).json({ error: "Yetkilendirme başarısız!" });
+    }
+  
+    const base64Credentials = authHeader.split(" ")[1];
+    const credentials = Buffer.from(base64Credentials, "base64").toString("utf-8");
+    const [username, password] = credentials.split(":");
+  
+    if (username !== process.env.AUTH_USER || password !== process.env.AUTH_PASS) {
+      return res.status(403).json({ error: "Geçersiz kimlik bilgileri!" });
+    }
+  
+    next(); // Doğru bilgiler girildi, devam et
+  };
 // 📩 E-Posta Gönderme Endpoint'i
+app.use(basicAuth);
 app.post("/send-email", async (req, res) => {
   const { to, subject, text, html } = req.body;
 
