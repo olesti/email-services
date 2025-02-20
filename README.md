@@ -1,17 +1,15 @@
+
 # 🚀 Enhanced Nodemailer Email API
 
-![GitHub Repo stars](https://img.shields.io/github/stars/your-username/your-repo?style=social)
-![GitHub forks](https://img.shields.io/github/forks/your-username/your-repo?style=social)
-![GitHub license](https://img.shields.io/github/license/your-username/your-repo)
-![GitHub issues](https://img.shields.io/github/issues/your-username/your-repo)
+![GitHub Repo stars](https://img.shields.io/github/stars/olesti/email-services?style=social)
+![GitHub forks](https://img.shields.io/github/forks/olesti/email-services?style=social)
+![GitHub license](https://img.shields.io/github/license/olesti/email-services)
+![GitHub issues](https://img.shields.io/github/issues/olesti/email-services)
+
 
 A simple and powerful Node.js email sending service using **Nodemailer**, with support for **attachments, CC, BCC, reply-to, and priority settings**. Designed to work seamlessly on serverless platforms like **Render, Vercel, and Railway** by utilizing **memory storage for attachments**.
 
 ---
-
-## 📸 Preview
-
-<img src="https://user-images.githubusercontent.com/your-image-link.png" alt="Preview" width="600"/>
 
 ## ✨ Features
 
@@ -27,12 +25,14 @@ A simple and powerful Node.js email sending service using **Nodemailer**, with s
 ## 📦 Installation
 
 1. **Clone the repository**
+
    ```sh
-   git clone https://github.com/your-username/your-repo.git
-   cd your-repo
+   git clone https://github.com/olesti/email-services.git
+   cd email-services
    ```
 
 2. **Install dependencies**
+
    ```sh
    npm install
    ```
@@ -44,6 +44,7 @@ A simple and powerful Node.js email sending service using **Nodemailer**, with s
    ```
 
    Then edit `.env` file:
+
    ```
    PORT=5000
    SMTP_HOST=smtp.gmail.com
@@ -61,17 +62,21 @@ A simple and powerful Node.js email sending service using **Nodemailer**, with s
 ## 🚀 Usage
 
 ### **Start the Server**
+
 ```sh
 npm start
 ```
 
 ### **Send an Email (via API request)**
+
 Send a `POST` request to:
+
 ```
 http://localhost:5000/send-email
 ```
 
 #### **Request Body (JSON)**
+
 ```json
 {
   "to": "recipient@example.com",
@@ -86,7 +91,9 @@ http://localhost:5000/send-email
 ```
 
 #### **Sending Attachments**
+
 Use **multipart/form-data** when sending attachments:
+
 ```sh
 curl -X POST http://localhost:5000/send-email \
   -H "Authorization: Basic your-username:your-password" \
@@ -108,6 +115,7 @@ Authorization: Basic base64(username:password)
 ```
 
 To generate a **Base64 encoded string**:
+
 ```sh
 echo -n "your-username:your-password" | base64
 ```
@@ -126,7 +134,7 @@ echo -n "your-username:your-password" | base64
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!  
-Feel free to check [issues page](https://github.com/your-username/your-repo/issues).
+Feel free to check [issues page](https://github.com/olesti/email-services/issues).
 
 ---
 
@@ -140,4 +148,5 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 Give a ⭐ if you like this project and want to see more like this!
 
-[![GitHub stars](https://img.shields.io/github/stars/your-username/your-repo?style=social)](https://github.com/your-username/your-repo/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/olesti/email-services?style=social)](https://github.com/olesti/email-services/stargazers)
+
