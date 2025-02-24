@@ -15,12 +15,18 @@ const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || "smtp.gmail.com",
   port: process.env.SMTP_PORT || 465,
   secure: true,
+  secureConnection: false, // TLS requires secureConnection to be false
+  tls: {
+    ciphers: "SSLv3",
+  },
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  requireTLS: true,
+  debug: true,
 });
-
+console.log(transporter.options)
 const basicAuth = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Basic ")) {
@@ -102,7 +108,7 @@ app.post("/send-email-template", async (req, res) => {
       replyTo: replyTo || undefined,
       priority: priority || "normal", // "high", "normal", "low"
     };
-
+console.log(mailOptions)
     const info = await transporter.sendMail(mailOptions);
     res.status(200).json({ success: true, message: "Email sent successfully!", info });
   } catch (error) {
