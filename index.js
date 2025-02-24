@@ -72,6 +72,43 @@ app.post("/send-email", upload.array("attachments"), async (req, res) => {
     res.status(500).json({ success: false, error: `Failed to send email. {To:${req.body.to}}` });
   }
 });
+app.post("/send-email-template", async (req, res) => {
+  try {
+    const { to, subject, text, html, cc, bcc, replyTo, priority,templateUrl,templateVariables} = req.body;
+    if (!to || !subject ||!templateUrl||!templateVariables) {
+      return res.status(400).json({ error: "Please fill in all fields." });
+    }
 
+  
+      const response = await fetch(templateUrl, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      })
+      let mail_text = await response.text()
+
+      // HTML içindeki {{name}} yer tutucusunu, prop olarak gelen name ile değiştiriyoruz
+      Object.keys(templateVariables).forEach((key)=>{
+        if(templateVariables[key]){
+          mail_text = mail_text.replace(`{{${key}}}`, templateVariables[key])
+        }
+      })
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to,
+      subject,
+      text: text || undefined,
+      html: mail_text || html,
+      cc: cc || undefined,
+      bcc: bcc || undefined,
+      replyTo: replyTo || undefined,
+      priority: priority || "normal", // "high", "normal", "low"
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    res.status(200).json({ success: true, message: "Email sent successfully!", info });
+  } catch (error) {
+    console.error("Email sending error:", error);
+    res.status(500).json({ success: false, error: `Failed to send email. {To:${req.body.to}}` });
+  }
+});
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server is running on port ${PORT}`));
