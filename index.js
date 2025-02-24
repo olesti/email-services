@@ -26,7 +26,6 @@ const transporter = nodemailer.createTransport({
   requireTLS: true,
   debug: true,
 });
-console.log(transporter.options)
 const basicAuth = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Basic ")) {
@@ -85,12 +84,10 @@ app.post("/send-email-template", async (req, res) => {
       return res.status(400).json({ error: "Please fill in all fields." });
     }
 
-  
       const response = await fetch(templateUrl, {
         headers: { 'Access-Control-Allow-Origin': '*' },
       })
       let mail_text = await response.text()
-
       // HTML içindeki {{name}} yer tutucusunu, prop olarak gelen name ile değiştiriyoruz
       Object.keys(templateVariables).forEach((key)=>{
         if(templateVariables[key]){
@@ -108,8 +105,8 @@ app.post("/send-email-template", async (req, res) => {
       replyTo: replyTo || undefined,
       priority: priority || "normal", // "high", "normal", "low"
     };
-console.log(mailOptions)
     const info = await transporter.sendMail(mailOptions);
+
     res.status(200).json({ success: true, message: "Email sent successfully!", info });
   } catch (error) {
     console.error("Email sending error:", error);
