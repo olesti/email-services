@@ -79,7 +79,7 @@ app.post("/send-email", upload.array("attachments"), async (req, res) => {
 });
 app.post("/send-email-template", async (req, res) => {
   try {
-    const { to, subject, text, html, cc, bcc, replyTo, priority,templateUrl,templateVariables} = req.body;
+    const { to, subject, text, html, cc, bcc, replyTo, priority,templateUrl,templateVariables, displayName } = req.body;
     if (!to || !subject ||!templateUrl||!templateVariables) {
       return res.status(400).json({ error: "Please fill in all fields." });
     }
@@ -95,7 +95,7 @@ app.post("/send-email-template", async (req, res) => {
         }
       })
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: displayName? `${displayName} <${process.env.EMAIL_USER}>`:process.env.EMAIL_USER,
       to,
       subject,
       text: text || undefined,
